@@ -222,8 +222,8 @@ public class Client extends Thread {
 
         /*................................................................................................................................................................................................................*/
 
-        System.out.println("\n Terminating client receiving thread - " + " Running time " +  (receiveClientEndTime - receiveClientStartTime));
+//        System.out.println("\n Terminating client receiving thread - " + " Running time " +  (receiveClientEndTime - receiveClientStartTime));
     }
 
 }
-}
+
