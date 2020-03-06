@@ -233,7 +233,7 @@ public class Server extends Thread {
         }
         setNumberOfAccounts(i);			/* Record the number of accounts processed */
 
-        /* System.out.println("\n DEBUG : Server.initializeAccounts() " + getNumberOfAccounts() + " accounts processed"); */
+        System.out.println("\n DEBUG : Server.initializeAccounts() " + getNumberOfAccounts() + " accounts processed");
 
         inputStream.close( );
     }
@@ -267,15 +267,15 @@ public class Server extends Thread {
     {   int accIndex;             	/* Index position of account to update */
         double newBalance; 		/* Updated account balance */
 
-        /* System.out.println("\n DEBUG : Server.processTransactions() " + getServerThreadId() ); */
+        System.out.println("\n DEBUG : Server.processTransactions() " + getServerThreadId() );
 
         /* Process the accounts until the client disconnects */
         while ((!Network.getClientConnectionStatus().equals("disconnected")))
         {
-            // while ( (Network.getInBufferStatus().equals("empty") && !Network.getClientConnectionStatus().equals("disconnected")) )
-            // {
-            //	 Thread.yield(); 	/* Yield the cpu if the network input buffer is empty */
-            // }
+             while ( (Network.getInBufferStatus().equals("empty") && !Network.getClientConnectionStatus().equals("disconnected")) )
+             {
+            	 Thread.yield(); 	/* Yield the cpu if the network input buffer is empty */
+             }
 
             if (!Network.getInBufferStatus().equals("empty"))
             {
@@ -315,10 +315,10 @@ public class Server extends Thread {
                         }
 
 
-                //	 while (Network.getOutBufferStatus().equals("full"))
-                //	 {
-                //		 Thread.yield();		/* Yield the cpu if the network output buffer is full */
-                //	 }
+                	 while (Network.getOutBufferStatus().equals("full"))
+                	 {
+                		 Thread.yield();		/* Yield the cpu if the network output buffer is full */
+                	 }
 
                 /* System.out.println("\n DEBUG : Server.processTransactions() - transferring out account " + trans.getAccountNumber()); */
 
