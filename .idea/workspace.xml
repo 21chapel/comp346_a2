@@ -2,9 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="438fe20a-07e7-4cc8-96d5-7cfb0267602e" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Comp346pa2driver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Comp346pa2driver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Network.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Network.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Server.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -31,14 +28,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Comp346pa2driver.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="338">
-              <caret line="24" lean-forward="true" selection-start-line="24" selection-end-line="24" />
-              <folding>
-                <element signature="e#0#928#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="68">
+              <caret line="4" column="39" lean-forward="true" selection-start-line="4" selection-start-column="39" selection-end-line="4" selection-end-column="39" />
             </state>
           </provider>
         </entry>
@@ -46,17 +40,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Network.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
+            <state relative-caret-position="2718">
               <caret line="561" column="31" lean-forward="true" selection-start-line="561" selection-start-column="31" selection-end-line="561" selection-end-column="31" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Server.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="630">
-              <caret line="63" column="7" lean-forward="true" selection-start-line="63" selection-start-column="7" selection-end-line="63" selection-end-column="7" />
+            <state relative-caret-position="336">
+              <caret line="395" column="8" lean-forward="true" selection-start-line="395" selection-start-column="8" selection-end-line="395" selection-end-column="8" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -67,7 +61,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Client.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="426">
+            <state relative-caret-position="2480">
               <caret line="238" column="1" lean-forward="true" selection-start-line="238" selection-start-column="1" selection-end-line="238" selection-end-column="1" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -100,9 +94,9 @@
         <option value="$PROJECT_DIR$/src/Accounts.java" />
         <option value="$PROJECT_DIR$/src/Transactions.java" />
         <option value="$PROJECT_DIR$/src/Network.java" />
-        <option value="$PROJECT_DIR$/src/Server.java" />
         <option value="$PROJECT_DIR$/src/Client.java" />
         <option value="$PROJECT_DIR$/src/Comp346pa2driver.java" />
+        <option value="$PROJECT_DIR$/src/Server.java" />
       </list>
     </option>
   </component>
@@ -193,12 +187,12 @@
       <updated>1583170147887</updated>
       <workItem from="1583170152370" duration="319000" />
       <workItem from="1583170497493" duration="869000" />
-      <workItem from="1583538280348" duration="2727000" />
+      <workItem from="1583538280348" duration="3016000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="4029000" />
+    <option name="totallyTimeSpent" value="4318000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-6" y="-6" width="1513" height="983" extended-state="6" />
@@ -213,7 +207,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.26846424" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.14888628" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -262,9 +256,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Comp346pa2driver.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="39" lean-forward="true" selection-start-line="4" selection-start-column="39" selection-end-line="4" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Client.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="426">
+        <state relative-caret-position="2480">
           <caret line="238" column="1" lean-forward="true" selection-start-line="238" selection-start-column="1" selection-end-line="238" selection-end-column="1" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -274,27 +275,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Network.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
+        <state relative-caret-position="2718">
           <caret line="561" column="31" lean-forward="true" selection-start-line="561" selection-start-column="31" selection-end-line="561" selection-end-column="31" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Server.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="630">
-          <caret line="63" column="7" lean-forward="true" selection-start-line="63" selection-start-column="7" selection-end-line="63" selection-end-column="7" />
+        <state relative-caret-position="336">
+          <caret line="395" column="8" lean-forward="true" selection-start-line="395" selection-start-column="8" selection-end-line="395" selection-end-column="8" />
           <folding>
             <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Comp346pa2driver.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="338">
-          <caret line="24" lean-forward="true" selection-start-line="24" selection-end-line="24" />
-          <folding>
-            <element signature="e#0#928#0" expanded="true" />
           </folding>
         </state>
       </provider>
