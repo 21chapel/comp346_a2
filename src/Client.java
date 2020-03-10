@@ -47,8 +47,6 @@ public class Client extends Thread {
            {   System.out.println("\n Terminating client application, network unavailable");
                System.exit(0);
            }
-           
-         
        	}
        else
     	   if (operation.equals("receiving"))
@@ -161,7 +159,7 @@ public class Client extends Thread {
          while (i < getNumberOfTransactions())
          {  
 	
-             while( Network.getInBufferStatus().equals("full") ) yield();     /* Alternatively, busy-wait until the network input buffer is available */
+//             while( Network.getInBufferStatus().equals("full") ) yield();     /* Alternatively, busy-wait until the network input buffer is available */
                                               	
             transaction[i].setTransactionStatus("sent");   /* Set current transaction status */
            
@@ -185,7 +183,7 @@ public class Client extends Thread {
          
          while (i < getNumberOfTransactions())
          {   
-         	while( Network.getOutBufferStatus().equals("empty") && (Network.getServerConnectionStatus().equals("connected"))) yield();  	/* Alternatively, busy-wait until the network output buffer is available */
+//         	while( Network.getOutBufferStatus().equals("empty") && (Network.getServerConnectionStatus().equals("connected"))) yield();  	/* Alternatively, busy-wait until the network output buffer is available */
                                                       	
             Network.receive(transact);                               	/* Receive updated transaction from the network buffer */
             
@@ -224,6 +222,7 @@ public class Client extends Thread {
 	        if(Comp346pa2driver.debug) {
 	        	System.out.println("\n DEBUG : Client.run() - starting client sending thread connected");
 	        }
+	        Network.setClientConnectionStatus("connected");
 			sendTransactions();
 			sendClientEndTime = System.currentTimeMillis();
 			System.out.println("\n Terminating client sending thread - Running time "+

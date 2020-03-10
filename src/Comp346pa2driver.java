@@ -1,5 +1,4 @@
 
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
@@ -24,12 +23,11 @@ public class Comp346pa2driver {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-
-        
+    	//set Output stream to file
+       
         
     	Network objNetwork = new Network( );            /* Activate the network */
         objNetwork.start();
-        
         // New
         Server first = new Server("first");
         first.start();
