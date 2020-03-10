@@ -24,6 +24,11 @@ public class Network extends Thread {
     private static String inBufferStatus, outBufferStatus;     /* Current status of the network buffers - normal, full, empty */
     private static String networkStatus;                       /* Network status - active, inactive */
 
+    private static Semaphore sema_in_empty;
+    private static Semaphore sema_in_is_full;
+    private static Semaphore sema_out_is_empty;
+    private static Semaphore sema_out_is_full;
+
     /**
      * Constructor of the Network class
      *
@@ -54,7 +59,13 @@ public class Network extends Thread {
         outputIndexServer = 0;
         outputIndexClient = 0;
 
-        networkStatus = "active";
+//        networkStatus = "active";
+
+        sema_in_empty = new Semaphore(maxNbPackets);
+        sema_in_is_full = new Semaphore(0);
+
+        sema_out_is_empty = new Semaphore(maxNbPackets);
+        sema_out_is_full = new Semaphore(0);
     }
 
     /**
@@ -352,6 +363,11 @@ public class Network extends Thread {
      */
     public static boolean send(Transactions inPacket)
     {
+        try {
+            sema_in_empty.acquire();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         inComingPacket[inputIndexClient].setAccountNumber(inPacket.getAccountNumber());
         inComingPacket[inputIndexClient].setOperationType(inPacket.getOperationType());
@@ -376,6 +392,8 @@ public class Network extends Thread {
             setInBufferStatus("normal");
         }
 
+        sema_in_is_full.release();
+
         return true;
     }
 
@@ -386,6 +404,11 @@ public class Network extends Thread {
      */
     public static boolean receive(Transactions outPacket)
     {
+        try {
+            sema_out_is_full.acquire();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         outPacket.setAccountNumber(outGoingPacket[outputIndexClient].getAccountNumber());
         outPacket.setOperationType(outGoingPacket[outputIndexClient].getOperationType());
@@ -410,6 +433,8 @@ public class Network extends Thread {
             setOutBufferStatus("normal");
         }
 
+        sema_out_is_empty.release();
+
         return true;
     }
 
@@ -423,6 +448,11 @@ public class Network extends Thread {
      */
     public static boolean transferOut(Transactions outPacket)
     {
+        try {
+            sema_out_is_empty.acquire();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         outGoingPacket[inputIndexServer].setAccountNumber(outPacket.getAccountNumber());
         outGoingPacket[inputIndexServer].setOperationType(outPacket.getOperationType());
@@ -447,6 +477,8 @@ public class Network extends Thread {
             setOutBufferStatus("normal");
         }
 
+        sema_out_is_full.release();
+
         return true;
     }
 
@@ -458,6 +490,11 @@ public class Network extends Thread {
      */
     public static boolean transferIn(Transactions inPacket)
     {
+        try {
+            sema_in_is_full.acquire();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         inPacket.setAccountNumber(inComingPacket[outputIndexServer].getAccountNumber());
         inPacket.setOperationType(inComingPacket[outputIndexServer].getOperationType());
@@ -481,6 +518,8 @@ public class Network extends Thread {
         {
             setInBufferStatus("normal");
         }
+
+        sema_in_empty.release();
 
         return true;
     }
@@ -557,9 +596,16 @@ public class Network extends Thread {
     {
         /* System.out.println("\n DEBUG : Network.run() - starting network thread"); */
 
+        networkStatus = "active";
+
         while (true)
         {
-            /*................................................................................................................................................................*/
+                Thread.yield();
+
+                if( getClientConnectionStatus().equals("disconnected") && getServerConnectionStatus().equals("disconnected")) {
+                    break;
+                }
+
         }
     }
 }
