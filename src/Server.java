@@ -434,7 +434,9 @@ public class Server extends Thread {
 
         long serverStartTime = System.currentTimeMillis();
 
+        synchronized (account) {
         processTransactions(trans);
+        }
 
 
         long serverEndTime = System.currentTimeMillis();
