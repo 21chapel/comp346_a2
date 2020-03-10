@@ -157,10 +157,10 @@ public class Client extends Thread {
         while (i < getNumberOfTransactions())
         {
 
-            	 while (Network.getInBufferStatus().equals("full"))
-            	{
-             	  Thread.yield(); 	/* Yield the cpu if the network input buffer is full */
-              }
+//            	 while (Network.getInBufferStatus().equals("full"))
+//            	{
+//             	  Thread.yield(); 	/* Yield the cpu if the network input buffer is full */
+//              }
 
             transaction[i].setTransactionStatus("sent");   /* Set current transaction status */
 
@@ -184,11 +184,11 @@ public class Client extends Thread {
 
         while (i < getNumberOfTransactions())
         {
-             while (Network.getOutBufferStatus().equals("empty")  && (Network.getServerConnectionStatus().equals("connected")))
-             {
-            	 Thread.yield(); 	/* Yield the cpu if the network output buffer is full */
-
-             }
+//             while (Network.getOutBufferStatus().equals("empty")  && (Network.getServerConnectionStatus().equals("connected")))
+//             {
+//            	 Thread.yield(); 	/* Yield the cpu if the network output buffer is full */
+//
+//             }
 
             Network.receive(transact);                               	/* Receive updated transaction from the network buffer */
 
@@ -223,6 +223,7 @@ public class Client extends Thread {
 
         if (getClientOperation().equals("sending")) {
             sendClientStartTime = System.currentTimeMillis();
+//            Network.setClientConnectionStatus("connected"); // this needs to be looked at.. why?
             sendTransactions();
             sendClientEndTime = System.currentTimeMillis();
             System.out.println("Terminating client sending thread, Running time: " + (sendClientEndTime -sendClientStartTime));
