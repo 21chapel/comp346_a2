@@ -1,4 +1,4 @@
-package noSynch;
+
 import java.util.Scanner;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -159,11 +159,11 @@ public class Client extends Thread {
          while (i < getNumberOfTransactions())
          {  
 	
-             while( Network.getInBufferStatus().equals("full") ) yield();     /* Alternatively, busy-wait until the network input buffer is available */
+//             while( Network.getInBufferStatus().equals("full") ) yield();     /* Alternatively, busy-wait until the network input buffer is available */
                                               	
             transaction[i].setTransactionStatus("sent");   /* Set current transaction status */
            
-            System.out.println("\n DEBUG : Client.sendTransactions() - sending transaction on account " + transaction[i].getAccountNumber()); 
+            /* System.out.println("\n DEBUG : Client.sendTransactions() - sending transaction on account " + transaction[i].getAccountNumber()); */ 
             
             Network.send(transaction[i]);                            /* Transmit current transaction */
             i++;          
@@ -183,11 +183,11 @@ public class Client extends Thread {
          
          while (i < getNumberOfTransactions())
          {   
-         	while( Network.getOutBufferStatus().equals("empty") && (Network.getServerConnectionStatus().equals("connected"))) yield();  	/* Alternatively, busy-wait until the network output buffer is available */
+//         	while( Network.getOutBufferStatus().equals("empty") && (Network.getServerConnectionStatus().equals("connected"))) yield();  	/* Alternatively, busy-wait until the network output buffer is available */
                                                       	
             Network.receive(transact);                               	/* Receive updated transaction from the network buffer */
             
-           System.out.println("\n DEBUG : Client.receiveTransactions() - receiving updated transaction on account " + transact.getAccountNumber()); 
+            /* System.out.println("\n DEBUG : Client.receiveTransactions() - receiving updated transaction on account " + transact.getAccountNumber()); */
             
             System.out.println(transact);                               /* Display updated transaction */    
             i++;
@@ -222,6 +222,7 @@ public class Client extends Thread {
 	        if(Comp346pa2driver.debug) {
 	        	System.out.println("\n DEBUG : Client.run() - starting client sending thread connected");
 	        }
+	        Network.setClientConnectionStatus("connected");
 			sendTransactions();
 			sendClientEndTime = System.currentTimeMillis();
 			System.out.println("\n Terminating client sending thread - Running time "+
