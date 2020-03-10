@@ -1,3 +1,5 @@
+
+
 import java.util.concurrent.*;
 
 /*
@@ -360,8 +362,8 @@ public class Network extends Thread {
         		  inComingPacket[inputIndexClient].setTransactionError(inPacket.getTransactionError());
         		  inComingPacket[inputIndexClient].setTransactionStatus("transferred");
             
-        		  System.out.println("\n DEBUG : Network.send() - index inputIndexClient " + inputIndexClient); 
-        		 System.out.println("\n DEBUG : Network.send() - account number " + inComingPacket[inputIndexClient].getAccountNumber()); 
+        		 /* System.out.println("\n DEBUG : Network.send() - index inputIndexClient " + inputIndexClient); */
+        		  /* System.out.println("\n DEBUG : Network.send() - account number " + inComingPacket[inputIndexClient].getAccountNumber()); */
             
         		  setinputIndexClient(((getinputIndexClient( ) + 1) % getMaxNbPackets ()));	/* Increment the input buffer index  for the client */
         		  /* Check if input buffer is full */
@@ -369,7 +371,7 @@ public class Network extends Thread {
         		  {	
         			  setInBufferStatus("full");
             	
-        			 System.out.println("\n DEBUG : Network.send() - inComingBuffer status " + getInBufferStatus()); 
+        			/* System.out.println("\n DEBUG : Network.send() - inComingBuffer status " + getInBufferStatus()); */
         		  }
         		  else 
         		  {

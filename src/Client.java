@@ -1,3 +1,4 @@
+
 import java.util.Scanner;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -46,6 +47,8 @@ public class Client extends Thread {
            {   System.out.println("\n Terminating client application, network unavailable");
                System.exit(0);
            }
+           
+         
        	}
        else
     	   if (operation.equals("receiving"))
@@ -162,7 +165,7 @@ public class Client extends Thread {
                                               	
             transaction[i].setTransactionStatus("sent");   /* Set current transaction status */
            
-            System.out.println("\n DEBUG : Client.sendTransactions() - sending transaction on account " + transaction[i].getAccountNumber()); 
+            /* System.out.println("\n DEBUG : Client.sendTransactions() - sending transaction on account " + transaction[i].getAccountNumber()); */ 
             
             Network.send(transaction[i]);                            /* Transmit current transaction */
             i++;          
@@ -186,7 +189,7 @@ public class Client extends Thread {
                                                       	
             Network.receive(transact);                               	/* Receive updated transaction from the network buffer */
             
-           System.out.println("\n DEBUG : Client.receiveTransactions() - receiving updated transaction on account " + transact.getAccountNumber()); 
+            /* System.out.println("\n DEBUG : Client.receiveTransactions() - receiving updated transaction on account " + transact.getAccountNumber()); */
             
             System.out.println(transact);                               /* Display updated transaction */    
             i++;
