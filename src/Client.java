@@ -32,6 +32,7 @@ public class Client extends Thread {
         if (operation.equals("sending"))
         {
             System.out.println("\n Initializing client sending application ...");
+            while (!Network.getServerConnectionStatus().equals("connected")) yield();
             numberOfTransactions = 0;
             maxNbTransactions = 100;
             transaction = new Transactions[maxNbTransactions];
@@ -183,7 +184,7 @@ public class Client extends Thread {
 
         while (i < getNumberOfTransactions())
         {
-             while (Network.getOutBufferStatus().equals("empty"))
+             while (Network.getOutBufferStatus().equals("empty")  && (Network.getServerConnectionStatus().equals("connected")))
              {
             	 Thread.yield(); 	/* Yield the cpu if the network output buffer is full */
 
