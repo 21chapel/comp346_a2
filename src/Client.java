@@ -1,4 +1,4 @@
-
+package noSynch;
 import java.util.Scanner;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -15,102 +15,105 @@ import java.util.InputMismatchException;
  * @author Kerly Titus
  */
 
-public class Client extends Thread {
-
+public class Client extends Thread { 
+	  
+	private static boolean sendingOn;   			/* Number of transactions to process */
     private static int numberOfTransactions;   		/* Number of transactions to process */
     private static int maxNbTransactions;      		/* Maximum number of transactions */
     private static Transactions [] transaction; 	        /* Transactions to be processed */
     private String clientOperation;    			/* sending or receiving */
-
-    /** Constructor method of Client class
-     *
-     * @return
+       
+	/** Constructor method of Client class
+ 	 * 
+     * @return 
      * @param
      */
-    Client(String operation)
-    {
-        if (operation.equals("sending"))
-        {
-            System.out.println("\n Initializing client sending application ...");
-            numberOfTransactions = 0;
-            maxNbTransactions = 100;
-            transaction = new Transactions[maxNbTransactions];
-            clientOperation = operation;
-            System.out.println("\n Initializing the transactions ... ");
-            readTransactions();
-            System.out.println("\n Connecting client to network ...");
-            String cip = Network.getClientIP();
-            if (!(Network.connect(cip)))
-            {   System.out.println("\n Terminating client application, network unavailable");
-                System.exit(0);
-            }
-        }
-        else
-        if (operation.equals("receiving"))
-        {
-            System.out.println("\n Initializing client receiving application ...");
-            clientOperation = operation;
-        }
-    }
-
-    /**
+     Client(String operation)
+     { 
+       if (operation.equals("sending"))
+       { 
+           System.out.println("\n Initializing client sending application ...");
+           while (!Network.getServerConnectionStatus().equals("connected")) yield();
+           numberOfTransactions = 0;
+           maxNbTransactions = 100;
+           transaction = new Transactions[maxNbTransactions];  
+           clientOperation = operation; 
+           System.out.println("\n Initializing the transactions ... ");
+           readTransactions();
+           System.out.println("\n Connecting client to network ...");
+           String cip = Network.getClientIP();
+           sendingOn = true;
+           if (!(Network.connect(cip)))
+           {   System.out.println("\n Terminating client application, network unavailable");
+               System.exit(0);
+           }
+       	}
+       else
+    	   if (operation.equals("receiving"))
+           { 
+    		   System.out.println("\n Initializing client receiving application ...");
+    		   clientOperation = operation; 
+           }
+     }
+           
+    /** 
      * Accessor method of Client class
-     *
+     * 
      * @return numberOfTransactions
      * @param
      */
-    public int getNumberOfTransactions()
-    {
-        return numberOfTransactions;
-    }
-
-    /**
+     public int getNumberOfTransactions()
+     {
+         return numberOfTransactions;
+     }
+            
+    /** 
      * Mutator method of Client class
-     *
-     * @return
+     * 
+     * @return 
      * @param nbOfTrans
      */
-    public void setNumberOfTransactions(int nbOfTrans)
-    {
-        numberOfTransactions = nbOfTrans;
-    }
-
-    /**
+     public void setNumberOfTransactions(int nbOfTrans)
+     { 
+         numberOfTransactions = nbOfTrans;
+     }
+         
+    /** 
      * Accessor method of Client class
-     *
+     * 
      * @return clientOperation
      * @param
      */
-    public String getClientOperation()
-    {
-        return clientOperation;
-    }
-
-    /**
+     public String getClientOperation()
+     {
+         return clientOperation;
+     }
+         
+    /** 
      * Mutator method of Client class
-     *
-     * @return
-     * @param operation
-     */
-    public void setClientOperation(String operation)
-    {
-        clientOperation = operation;
-    }
-
-    /**
+	 * 
+	 * @return 
+	 * @param operation
+	 */
+	 public void setClientOperation(String operation)
+	 { 
+	     clientOperation = operation;
+	 }
+         
+    /** 
      * Reading of the transactions from an input file
-     *
-     * @return
+     * 
+     * @return 
      * @param
      */
-    public void readTransactions()
-    {
+     public void readTransactions()
+     {
         Scanner inputStream = null;     	/* Transactions input file stream */
         int i = 0;                      		/* Index of transactions array */
-
+        
         try
         {
-            inputStream = new Scanner(new FileInputStream("transaction2.txt"));
+        	inputStream = new Scanner(new FileInputStream("transaction2.txt"));
         }
         catch(FileNotFoundException e)
         {
@@ -128,113 +131,115 @@ public class Client extends Thread {
                 transaction[i].setTransactionStatus("pending");                 /* Set current transaction status */
                 i++;
             }
-            catch(InputMismatchException e)
+             catch(InputMismatchException e)
             {
                 System.out.println("Line " + i + "file transactions.txt invalid input");
                 System.exit(0);
             }
-
+            
         }
         setNumberOfTransactions(i);		/* Record the number of transactions processed */
-
+        
         /* System.out.println("\n DEBUG : Client.readTransactions() - " + getNumberOfTransactions() + " transactions processed"); */
-
+        
         inputStream.close( );
 
-    }
-
-    /**
-     * Sending the transactions to the server
-     *
-     * @return
+     }
+     
+    /** 
+     * Sending the transactions to the server 
+     * 
+     * @return 
      * @param
      */
-    public void sendTransactions()
-    {
-        int i = 0;     /* index of transaction array */
-
-        while (i < getNumberOfTransactions())
-        {
-
-            	 while (Network.getInBufferStatus().equals("full"))
-            	{
-             	  Thread.yield(); 	/* Yield the cpu if the network input buffer is full */
-              }
-
+     public void sendTransactions()
+     {
+         int i = 0;     /* index of transaction array */
+         
+         while (i < getNumberOfTransactions())
+         {  
+	
+             while( Network.getInBufferStatus().equals("full") ) yield();     /* Alternatively, busy-wait until the network input buffer is available */
+                                              	
             transaction[i].setTransactionStatus("sent");   /* Set current transaction status */
-
-            /* System.out.println("\n DEBUG : Client.sendTransactions() - sending transaction on account " + transaction[i].getAccountNumber()); */
-
+           
+            System.out.println("\n DEBUG : Client.sendTransactions() - sending transaction on account " + transaction[i].getAccountNumber()); 
+            
             Network.send(transaction[i]);                            /* Transmit current transaction */
-            i++;
-        }
-
+            i++;          
+         }
+         
     }
-
-    /**
-     * Receiving the completed transactions from the server
-     *
-     * @return
+         
+ 	/** 
+  	 * Receiving the completed transactions from the server
+     * 
+     * @return 
      * @param transact
      */
-    public void receiveTransactions(Transactions transact)
-    {
-        int i = 0;     /* Index of transaction array */
-
-        while (i < getNumberOfTransactions())
-        {
-             while (Network.getOutBufferStatus().equals("empty"))
-             {
-            	 Thread.yield(); 	/* Yield the cpu if the network output buffer is full */
-
-             }
-
+     public void receiveTransactions(Transactions transact)
+     {
+         int i = 0;     /* Index of transaction array */
+         
+         while (i < getNumberOfTransactions())
+         {   
+         	while( Network.getOutBufferStatus().equals("empty") && (Network.getServerConnectionStatus().equals("connected"))) yield();  	/* Alternatively, busy-wait until the network output buffer is available */
+                                                      	
             Network.receive(transact);                               	/* Receive updated transaction from the network buffer */
-
-            /* System.out.println("\n DEBUG : Client.receiveTransactions() - receiving updated transaction on account " + transact.getAccountNumber()); */
-
-            System.out.println(transact);                               /* Display updated transaction */
+            
+           System.out.println("\n DEBUG : Client.receiveTransactions() - receiving updated transaction on account " + transact.getAccountNumber()); 
+            
+            System.out.println(transact);                               /* Display updated transaction */    
             i++;
-        }
+         } 
     }
-
-    /**
+     
+    /** 
      * Create a String representation based on the Client Object
-     *
+     * 
      * @return String representation
-     * @param
+     * @param 
      */
-    public String toString()
-    {
-        return ("\n client IP " + Network.getClientIP() + " Connection status" + Network.getClientConnectionStatus() + "Number of transactions " + getNumberOfTransactions());
-    }
-
-
+     public String toString() 
+     {
+    	 return ("\n client IP " + Network.getClientIP() + " Connection status" + Network.getClientConnectionStatus() + "Number of transactions " + getNumberOfTransactions());
+     }
+    
+       
     /** Code for the run method
-     *
-     * @return
+     * 
+     * @return 
      * @param
      */
     public void run()
-    {
-        Transactions transact = new Transactions();
-        long sendClientStartTime, sendClientEndTime, receiveClientStartTime, receiveClientEndTime;
-
-        if (getClientOperation().equals("sending")) {
-            sendClientStartTime = System.currentTimeMillis();
-            sendTransactions();
-            sendClientEndTime = System.currentTimeMillis();
-            System.out.println("Terminating client sending thread, Running time: " + (sendClientEndTime -sendClientStartTime));
-        }
-
-        if (getClientOperation().equals("receiving")) {
-            receiveClientStartTime = System.currentTimeMillis();
-            receiveTransactions(transact);
-            receiveClientEndTime = System.currentTimeMillis();
-            System.out.println("Terminating client receiving thread, Running time: " + (receiveClientEndTime -receiveClientStartTime));
-            Network.disconnect(Network.getClientIP());
-        }
+    {       	
+	    	Transactions transact = new Transactions();
+		long sendClientStartTime, sendClientEndTime, receiveClientStartTime, receiveClientEndTime;
+		
+		/* Implement the code for the run method */
+		if(clientOperation.equals("sending")) {
+			sendClientStartTime = System.currentTimeMillis();
+	        if(Comp346pa2driver.debug) {
+	        	System.out.println("\n DEBUG : Client.run() - starting client sending thread connected");
+	        }
+			sendTransactions();
+			sendClientEndTime = System.currentTimeMillis();
+			System.out.println("\n Terminating client sending thread - Running time "+
+			(sendClientEndTime-sendClientStartTime)+" milliseconds");
+			sendingOn = false;
+		}
+		else if(clientOperation.equals("receiving")) {
+			receiveClientStartTime = System.currentTimeMillis();
+	        if(Comp346pa2driver.debug) {
+	        	System.out.println("\n DEBUG : Client.run() - starting client receiving thread connected");
+	        }
+			receiveTransactions(transact);
+			receiveClientEndTime = System.currentTimeMillis();
+			System.out.println("\n Terminating client receiving thread - Running time "+
+			(receiveClientEndTime-receiveClientStartTime)+" milliseconds");
+			while (sendingOn) yield();
+	    	Network.disconnect(Network.getClientIP());
+		}
+	}
+                
     }
-
-}
-
