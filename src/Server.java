@@ -428,7 +428,9 @@ public class Server extends Thread {
 
     public void run()
     {
-//        while (!Network.getClientConnectionStatus().equals("connected")) yield(); // unmute
+        while (!Network.getClientConnectionStatus().equals("connected")){
+            yield(); // IMPORTANT
+        }
 
         Transactions trans = new Transactions();
 

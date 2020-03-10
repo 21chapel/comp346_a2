@@ -223,7 +223,7 @@ public class Client extends Thread {
 
         if (getClientOperation().equals("sending")) {
             sendClientStartTime = System.currentTimeMillis();
-//            Network.setClientConnectionStatus("connected"); // this needs to be looked at.. why?
+            Network.setClientConnectionStatus("connected"); // IMPORTANT!!
             sendTransactions();
             sendClientEndTime = System.currentTimeMillis();
             System.out.println("Terminating client sending thread, Running time: " + (sendClientEndTime -sendClientStartTime));
