@@ -142,7 +142,7 @@ public class Server extends Thread {
      * Mutator method of Server class
      *
      * @return
-     * @param tId
+     * @param
      */
     public void setServerThreadId(String stid)
     {
@@ -233,7 +233,7 @@ public class Server extends Thread {
         }
         setNumberOfAccounts(i);			/* Record the number of accounts processed */
 
-        System.out.println("\n DEBUG : Server.initializeAccounts() " + getNumberOfAccounts() + " accounts processed");
+//        System.out.println("\n DEBUG : Server.initializeAccounts() " + getNumberOfAccounts() + " accounts processed");
 
         inputStream.close( );
     }
@@ -340,9 +340,10 @@ public class Server extends Thread {
      */
 
     public double deposit(int i, double amount)
-    {  double curBalance;      /* Current account balance */
+    {  synchronized (account[i]) { // or just pass this instead of account[i]
 
-        synchronized (account[i]) {
+        double curBalance;      /* Current account balance */
+
 
         curBalance = account[i].getBalance( );          /* Get current account balance */
 
@@ -372,9 +373,10 @@ public class Server extends Thread {
      */
 
     public double withdraw(int i, double amount)
-    {  double curBalance;      /* Current account balance */
+    {  synchronized (account[i]) {
+        double curBalance;      /* Current account balance */
 
-        synchronized (account[i]) {
+
 
         curBalance = account[i].getBalance( );          /* Get current account balance */
         System.out.println("\n DEBUG : Server.withdraw - " + "i " + i + " Current balance " + curBalance + " Amount " + amount + " " + getServerThreadId());
@@ -392,9 +394,11 @@ public class Server extends Thread {
      */
 
     public double query(int i)
-    {  double curBalance;      /* Current account balance */
+    {  synchronized (account[i]) {
 
-        synchronized (account[i]) {
+        double curBalance;      /* Current account balance */
+
+
 
 
         curBalance = account[i].getBalance( );          /* Get current account balance */
